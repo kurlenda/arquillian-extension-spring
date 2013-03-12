@@ -1,0 +1,1 @@
+http\://jboss.org/schema/warp=org.jboss.arquillian.warp.extension.spring.namespace.WarpEnableInterceptionNamespaceHandler

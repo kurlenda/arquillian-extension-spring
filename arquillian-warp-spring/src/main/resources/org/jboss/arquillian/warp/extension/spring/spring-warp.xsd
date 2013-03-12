@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://jboss.org/schema/warp"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://jboss.org/schema/warp"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+    <xsd:import namespace="http://www.springframework.org/schema/beans"/>
+
+    <xsd:element name="enable-interception"/>
+</xsd:schema>
