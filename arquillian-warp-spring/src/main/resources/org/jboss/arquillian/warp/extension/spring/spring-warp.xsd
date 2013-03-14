@@ -7,5 +7,21 @@
 
     <xsd:import namespace="http://www.springframework.org/schema/beans"/>
 
-    <xsd:element name="enable-interception"/>
+    <xsd:element name="enable-interception">
+        <xsd:complexType>
+            <xsd:annotation>
+                <xsd:documentation>
+                    Comma separated
+                </xsd:documentation>
+            </xsd:annotation>
+            <xsd:attribute name="handlers" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation><![CDATA[
+	The unique identifier for a bean.
+				]]></xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+        </xsd:complexType>
+
+    </xsd:element>
 </xsd:schema>
