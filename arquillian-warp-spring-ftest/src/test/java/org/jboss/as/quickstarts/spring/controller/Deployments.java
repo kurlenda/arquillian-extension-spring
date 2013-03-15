@@ -52,6 +52,8 @@ public final class Deployments {
                 .artifacts("org.springframework:spring-webmvc:3.1.1.RELEASE")
                 .artifacts("javax.validation:validation-api:1.0.0.GA")
                 .artifacts("org.hibernate:hibernate-validator:4.1.0.Final")
+                .artifact("org.jboss.arquillian.extension:arquillian-warp-api:1.0.0.Alpha2")
+                .artifact("org.jboss.arquillian.extension:arquillian-warp-spring:1.0.0.Final-SNAPSHOT")
                 .resolveAsFiles();
 
         return ShrinkWrap.create(WebArchive.class, "spring-test.war")

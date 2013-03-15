@@ -70,10 +70,13 @@ public class WarpInterceptorInitializingBean implements InitializingBean, Applic
     }
 
     private void setWarpInterceptorOnAllUrlHandlerMappings() {
+        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx");
         Map abstractHandlerMappings = applicationContext.getBeansOfType(AbstractUrlHandlerMapping.class);
 
         for (Object handlerMappingKey : abstractHandlerMappings.keySet()) {
+            System.out.println("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
             AbstractUrlHandlerMapping abstractUrlHandlerMapping = (AbstractUrlHandlerMapping) abstractHandlerMappings.get(handlerMappingKey);
+            System.out.println("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY " + abstractUrlHandlerMapping);
             abstractUrlHandlerMapping.setInterceptors(WARP_INTERCEPTOR_ARRAY);
         }
     }

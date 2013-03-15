@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:warp="http://jboss.org/schema/warp" xmlns:mvc="http://www.springframework.org/schema/context"
+       xmlns:warp="http://jboss.org/schema/warp"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-                           http://jboss.org/schema/warp http://jboss.org/schema/warp/spring-warp.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+                           http://jboss.org/schema/warp http://jboss.org/schema/warp/spring-warp.xsd">
 
     <bean id="beanNameHandlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
 

@@ -24,7 +24,7 @@
 
     <servlet>
         <servlet-name>welcome</servlet-name>
-        <servlet-class>org.jboss.arquillian.warp.extension.spring.servlet.WarpDispatcherServlet</servlet-class>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
