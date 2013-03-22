@@ -16,14 +16,20 @@
  */
 package org.jboss.arquillian.warp.extension.spring.namespace;
 
+import org.jboss.arquillian.warp.extension.spring.interceptor.WarpInterceptor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.servlet.handler.AbstractHandlerMapping;
 import org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Matchers.argThat;
@@ -38,21 +44,13 @@ public class WarpEnableInterceptionForAllHandlersTestCase {
     WarpInterceptorInitializingBean warpInterceptorInitializingBean;
 
     @Autowired
-    @Qualifier("urlHandlerMappingSpy")
     SimpleUrlHandlerMapping simpleUrlHandlerMapping;
 
     @Autowired
-    @Qualifier("beanNameHandlerMappingSpy")
     BeanNameUrlHandlerMapping beanNameUrlHandlerMapping;
 
     @Test
     public void shouldCreateWarpInterceptorInitializingBean() {
         assertThat(warpInterceptorInitializingBean).isNotNull();
-    }
-
-    @Test
-    public void shouldAddWarpInterceptorToUrlHandlerMappings() {
-        verify(simpleUrlHandlerMapping, times(1)).setInterceptors(argThat(new SetInterceptorsArgumentMatcher()));
-        verify(beanNameUrlHandlerMapping, times(1)).setInterceptors(argThat(new SetInterceptorsArgumentMatcher()));
     }
 }

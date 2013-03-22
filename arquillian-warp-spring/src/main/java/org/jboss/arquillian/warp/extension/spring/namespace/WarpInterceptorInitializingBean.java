@@ -19,11 +19,15 @@ package org.jboss.arquillian.warp.extension.spring.namespace;
 import org.jboss.arquillian.warp.extension.spring.interceptor.WarpInterceptor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.config.*;
+import org.springframework.beans.factory.support.ManagedList;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.Ordered;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.handler.AbstractUrlHandlerMapping;
 
+import javax.faces.bean.ReferencedBean;
 import java.util.Map;
 
 /**
@@ -35,7 +39,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:kurlenda@gmail.com">Jakub Kurlenda</a>
  */
-public class WarpInterceptorInitializingBean implements InitializingBean, ApplicationContextAware {
+public class WarpInterceptorInitializingBean implements BeanFactoryPostProcessor {
 
     private ApplicationContext applicationContext;
 
@@ -50,24 +54,6 @@ public class WarpInterceptorInitializingBean implements InitializingBean, Applic
      * {@see org.springframework.web.servlet.handler.AbstractHandlerMapping#setInterceptors()}
      */
     private final HandlerInterceptor[] WARP_INTERCEPTOR_ARRAY = new HandlerInterceptor[]{new WarpInterceptor()};
-
-    /**
-     * @InheritDoc
-     */
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        if (shouldInterceptOnlySelectedHandlerMappings()) {
-            setWarpInterceptorOnSelectedHandlerMappings();
-            return;
-        }
-        setWarpInterceptorOnAllUrlHandlerMappings();
-
-    }
 
     private void setWarpInterceptorOnAllUrlHandlerMappings() {
         Map abstractHandlerMappings = applicationContext.getBeansOfType(AbstractUrlHandlerMapping.class);
@@ -92,5 +78,19 @@ public class WarpInterceptorInitializingBean implements InitializingBean, Applic
 
     public void setInterceptedHandlerNames(String[] interceptedHandlerNames) {
         this.interceptedHandlerNames = interceptedHandlerNames;
+    }
+
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
+        configurableListableBeanFactory.registerSingleton("warpInterceptor", new WarpInterceptor());
+
+        String[] beanNamesForType = configurableListableBeanFactory.getBeanNamesForType(AbstractUrlHandlerMapping.class);
+        for (String beanName : beanNamesForType) {
+            BeanDefinition beanDefinition = configurableListableBeanFactory.getBeanDefinition(beanName);
+            ManagedList propertyValue = new ManagedList();
+            RuntimeBeanReference runtimeBeanReference = new RuntimeBeanReference("warpInterceptor");
+            propertyValue.add(runtimeBeanReference);
+            beanDefinition.getPropertyValues().addPropertyValue("interceptors", propertyValue);
+        }
     }
 }
